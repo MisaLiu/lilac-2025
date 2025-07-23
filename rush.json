@@ -342,6 +342,13 @@
       "reviewCategory": "server",
       "tags": [ "server" ],
       "shouldPublish": false
+    },
+    {
+      "packageName": "@lilac-2025/bot",
+      "projectFolder": "packages/bot",
+      "reviewCategory": "bot",
+      "tags": [ "bot" ],
+      "shouldPublish": false
     }
   ]
 }

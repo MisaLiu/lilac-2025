@@ -1,0 +1,18 @@
+{
+  "name": "@lilac-2025/bot",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon -w src -x tsx src/main.ts",
+    "start": "NODE_ENV=production tsx src/main.ts"
+  },
+  "dependencies": {
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.2",
+    "nodemon": "^3.1.10"
+  }
+}
