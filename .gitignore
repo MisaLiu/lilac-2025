@@ -120,3 +120,6 @@ dist-storybook/
 # Heft temporary files
 .cache/
 .heft/
+
+# Server SQLite database
+*.sqlite3
