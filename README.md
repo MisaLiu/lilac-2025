@@ -20,5 +20,5 @@ rush install
 
 ```shell
 cd packages/example
-rush add package-you-want-to-add
+rush add -p package-you-want-to-add
 ```
