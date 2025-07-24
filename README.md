@@ -2,7 +2,7 @@
 
 ## 开发
 
-至少使用 NodeJS v22.18.0 LTS 版本！
+至少使用 NodeJS v22.14.0 LTS 版本！
 
 先装 [Rush](https://rushjs.io/)，然后：
 
