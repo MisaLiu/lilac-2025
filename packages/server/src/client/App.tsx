@@ -1,36 +1,64 @@
-import "./App.css";
+import React from 'react';
 
-import { useState } from "react";
+import 'amis/lib/themes/cxd.css';
+import 'amis/lib/helper.css';
+import 'amis/sdk/iconfont.css';
 
-import reactLogo from "./assets/react.svg";
+import { render as renderAmis, ToastComponent, AlertComponent } from 'amis';
 
-function App() {
-  const [count, setCount] = useState(0);
+const env = {
+  fetcher: ({ url, method, data, responseType, config, headers }: any) => {
+    config = config || {};
+    config.withCredentials = true;
+    responseType && (config.responseType = responseType);
 
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  );
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url, true);
+
+    Object.keys(headers || {}).forEach((key) => {
+      xhr.setRequestHeader(key, headers[key]);
+    });
+
+    return new Promise<any>((resolve, reject) => {
+      xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          resolve(xhr.response);
+        } else {
+          reject(xhr.statusText);
+        }
+      };
+      xhr.onerror = function () {
+        reject(xhr.statusText);
+      };
+      xhr.send(data);
+    });
+  },
+  theme: 'default'
+};
+
+class AMISComponent extends React.Component<any, any> {
+  render() {
+    return renderAmis(
+      {
+        "type": "page",
+        "body": "Hello World!"
+      },
+      {},
+      env
+    )
+  }
+}
+
+class App extends React.Component<any, any> {
+  render() {
+    return (
+      <>
+        <ToastComponent key="toast" position={'top-right'} />
+        <AlertComponent key="alert" />
+        <AMISComponent />
+      </>
+    );
+  }
 }
 
 export default App;
