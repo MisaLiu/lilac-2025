@@ -1,9 +1,11 @@
 import { Router, ErrorRequestHandler } from 'express';
 import Collection from './collection.js';
+import Member from './member.js';
 
 const router = Router();
 
 router.use('/collection', Collection);
+router.use('/member', Member);
 
 // API error handler
 
