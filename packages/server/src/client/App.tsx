@@ -6,6 +6,14 @@ import 'amis/sdk/iconfont.css';
 
 import { render as renderAmis, ToastComponent, AlertComponent } from 'amis';
 
+import MemberPage from './pages/member';
+import { Schema } from 'amis/lib/types';
+
+// this is for navigation bars 
+const pageMap: Record<string, Schema> = {
+  'member': MemberPage
+}
+
 const env = {
   fetcher: ({ url, method, data, responseType, config, headers }: any) => {
     config = config || {};
@@ -38,14 +46,13 @@ const env = {
 
 class AMISComponent extends React.Component<any, any> {
   render() {
-    return renderAmis(
-      {
-        "type": "page",
-        "body": "Hello World!"
-      },
-      {},
-      env
-    )
+    const page = new URLSearchParams(window.location.search).get('page');
+    if (page === null) {
+      // jump to member page
+      window.location.href = '/?page=member';
+      return null;
+    }
+    return renderAmis(pageMap[page], {}, env);
   }
 }
 
