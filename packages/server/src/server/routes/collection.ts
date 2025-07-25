@@ -83,4 +83,73 @@ router.put(
   }
 );
 
+/**
+ * POST - /api/collection/:name
+ * 
+ * Edit a collection
+ */
+router.post(
+  '/:name',
+
+  param('name')
+    .isString()
+    .trim()
+    .notEmpty(),
+  body('description')
+    .isString()
+    .trim()
+    .notEmpty(),
+  body('type')
+    .optional()
+    .isString()
+    .trim()
+    .default('neutral')
+    .toLowerCase()
+    .isIn([ 'positive', 'negative', 'neutral' ]),
+  checkValidation,
+
+  async (req, res) => {
+    const data = matchedData(req);
+    const result = await Controllers.edit(data.name, data.description, data.type);
+
+    if (!result) return res.status(404).json({
+      msg: 'No such collection',
+    });
+
+    res.json({
+      msg: 'ok',
+      data: result.toJSON(),
+    });
+  }
+);
+
+/**
+ * DELETE - /api/collection/:name
+ * 
+ * Delete a collection
+ */
+router.delete(
+  '/:name',
+
+  param('name')
+    .isString()
+    .trim()
+    .notEmpty(),
+  checkValidation,
+
+  async (req, res) => {
+    const data = matchedData(req);
+    const result = await Controllers.remove(data.name);
+
+    if (!result) return res.status(404).json({
+      msg: 'No such collection',
+    });
+
+    res.json({
+      msg: 'ok',
+      data: result.toJSON(),
+    });
+  }
+);
+
 export default router;
