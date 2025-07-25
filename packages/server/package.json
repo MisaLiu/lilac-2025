@@ -17,7 +17,8 @@
     "vite-express": "*",
     "sequelize": "~6.37.7",
     "sqlite3": "~5.1.7",
-    "express-validator": "~7.2.1"
+    "express-validator": "~7.2.1",
+    "amis": "~6.12.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.1",
