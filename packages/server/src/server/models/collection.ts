@@ -14,7 +14,8 @@ Collection.init(
       allowNull: false,
     },
     type: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM,
+      values: [ 'positive', 'negative', 'neutral' ],
       defaultValue: 'neutral',
       allowNull: false,
     },

@@ -10,7 +10,7 @@ const router = Router();
  * 
  * Get all collections
  */
-router.get('/all', async (req, res) => {
+router.get('/all', async (_req, res) => {
   const collections = await Controllers.getAll();
 
   res.json({
