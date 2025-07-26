@@ -2,6 +2,7 @@ import { Model, DataTypes } from 'sequelize';
 import db from '../database.js';
 
 class Team extends Model {
+  declare id: number;
   declare members: number[];
   declare collectionsOwned: number[];
   declare score: number;
