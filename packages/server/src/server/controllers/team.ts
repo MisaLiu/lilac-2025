@@ -26,3 +26,63 @@ export const add = (
 
   res(team);
 });
+
+export const addMember = (
+  id: number,
+  member: number,
+) => new Promise<TeamModel | null>(async (res, rej) => {
+  const team = await get(id);
+  if (!team) return res(null);
+
+  const _member = await MemberController.get(member);
+  if (!_member) return rej(`No such member '${member}'`);
+
+  if (team.members.length >= 2) return rej('Team already full');
+  if (typeof _member.teamID === 'number') {
+    if (_member.teamID === team.id) return rej(`'${member}' already in the team`);
+    else return rej(`'${member}' already has a team`);
+  }
+
+  team.members.push(member);
+  _member.teamID = team.id;
+
+  await Promise.all([
+    team.save(),
+    _member.save()
+  ]);
+  res(team);
+});
+
+export const removeMember = (
+  id: number,
+  member: number,
+) => new Promise<TeamModel | null>(async (res, rej) => {
+  const team = await get(id);
+  if (!team) return res(null);
+
+  const _member = await MemberController.get(member);
+  if (!_member) return rej(`No such member '${member}'`);
+
+  if (team.members.length <= 0) return rej('No members in the team');
+  if (typeof _member.teamID !== 'number') return rej(`'${member}' does not belonging to any team`);
+  if (_member.teamID !== team.id) return rej(`'${member}' not in the team`);
+
+  team.members = team.members.filter((e) => e !== member);
+  _member.teamID = undefined;
+
+  await Promise.all([
+    team.save(),
+    _member.save()
+  ]);
+  res(team);
+});
+
+export const remove = (
+  id: number
+) => new Promise<TeamModel | null>(async (res, rej) => {
+  const result = await get(id);
+  if (!result) return res(null);
+
+  await result.destroy();
+  res(result);
+});
