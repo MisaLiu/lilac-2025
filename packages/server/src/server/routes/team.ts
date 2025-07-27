@@ -40,7 +40,7 @@ router.get(
     const result = await Controllers.get(data.id);
 
     if (!result) return res.status(404).json({
-      msg: 'No such collection',
+      msg: 'No such team',
     });
 
     res.json({
