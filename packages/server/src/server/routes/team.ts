@@ -79,4 +79,122 @@ router.put(
   }
 );
 
+/**
+ * GET - /api/team/:id/members
+ * 
+ * Get all members from a team
+ */
+router.get(
+  '/:id/members',
+
+  param('id')
+    .isNumeric()
+    .toInt(),
+  checkValidation,
+
+  async (req, res) => {
+    const data = matchedData(req);
+    const result = await Controllers.get(data.id);
+
+    if (!result) return res.status(404).json({
+      msg: 'No such team',
+    });
+
+    res.json({
+      msg: 'ok',
+      data: result.toJSON().members,
+    });
+  }
+);
+
+/**
+ * PUT - /api/team/:id/members
+ * 
+ * Add a member to the team
+ */
+router.put(
+  '/:id/members',
+
+  param('id')
+    .isNumeric()
+    .toInt(),
+  body('member')
+    .isNumeric()
+    .toInt(),
+  checkValidation,
+
+  async (req, res) => {
+    const data = matchedData(req);
+    const result = await Controllers.addMember(data.id, data.member);
+
+    if (!result) return res.status(404).json({
+      msg: 'No such team',
+    });
+
+    res.json({
+      msg: 'ok',
+      data: result.toJSON(),
+    });
+  }
+);
+
+/**
+ * DELETE - /api/team/:id/members
+ * 
+ * Remove a member from the team
+ */
+router.delete(
+  '/:id/members',
+
+  param('id')
+    .isNumeric()
+    .toInt(),
+  body('member')
+    .isNumeric()
+    .toInt(),
+  checkValidation,
+
+  async (req, res) => {
+    const data = matchedData(req);
+    const result = await Controllers.removeMember(data.id, data.member);
+
+    if (!result) return res.status(404).json({
+      msg: 'No such team',
+    });
+
+    res.json({
+      msg: 'ok',
+      data: result.toJSON(),
+    });
+  }
+);
+
+/**
+ * DELETE - /api/team/:id
+ * 
+ * Delete a team
+ */
+router.delete(
+  '/:id',
+
+  param('id')
+    .isNumeric()
+    .toInt(),
+  checkValidation,
+
+  async (req, res) => {
+    const data = matchedData(req);
+    const result = await Controllers.remove(data.id);
+
+    if (!result) return res.status(404).json({
+      msg: 'No such team',
+    });
+
+    res.json({
+      msg: 'ok',
+      data: result.toJSON(),
+    });
+  }
+);
+
 export default router;
