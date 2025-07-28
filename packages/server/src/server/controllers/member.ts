@@ -1,4 +1,5 @@
 import MemberModel from '../models/member.js';
+import { TMember } from '../models/member.js';
 
 export const getAll = () => MemberModel.findAll();
 
@@ -8,12 +9,15 @@ export const add = (qq: number, name: string) => MemberModel.create({ name, qq }
 
 export const edit = (
   qq: number,
-  name: string
+  props: Partial<Omit<TMember, 'qq'>>,
 ) => new Promise<MemberModel | null>(async (res) => {
   const result = await get(qq);
   if (!result) return res(null);
 
-  result.name = name;
+  for (const key in props) {
+    // @ts-ignore
+    result[key] = props[key];
+  }
 
   await result.save();
   res(result);

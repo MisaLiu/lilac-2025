@@ -1,6 +1,12 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '../database.js';
 
+export type TMember = {
+  name: string;
+  qq: number;
+  teamID?: number;
+};
+
 class Member extends Model {
   declare name: string;
   declare qq: number;

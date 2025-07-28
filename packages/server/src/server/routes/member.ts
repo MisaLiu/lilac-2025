@@ -97,7 +97,7 @@ router.post(
 
   async (req, res) => {
     const data = matchedData(req);
-    const result = await Controllers.edit(data.qq, data.name);
+    const result = await Controllers.edit(data.qq, { name: data.name });
 
     if (!result) return res.status(404).json({
       msg: 'No such member',

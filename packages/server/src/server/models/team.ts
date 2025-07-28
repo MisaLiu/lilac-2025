@@ -1,6 +1,15 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '../database.js';
 
+export type TTeam = {
+  members: number[];
+  collectionsOwned: number[];
+  score: number;
+  tipsPoint?: number;
+  mapLocation?: number;
+  puzzleID?: number;
+};
+
 class Team extends Model {
   declare id: number;
   declare members: number[];

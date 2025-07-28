@@ -1,5 +1,6 @@
 import TeamModel from '../models/team.js';
 import * as MemberController from './member.js';
+import { TTeam } from '../models/team.js';
 
 export const getAll = () => TeamModel.findAll();
 
@@ -25,6 +26,25 @@ export const add = (
   }));
 
   res(team);
+});
+
+/**
+ * NOTE: Add/remove members should use `addMember()` and `removeMember()`
+ */
+export const edit = (
+  id: number,
+  props: Partial<TTeam>,
+) => new Promise<TeamModel | null>(async (res, rej) => {
+  const result = await get(id);
+  if (!result) return res(null);
+
+  for (const key in props) {
+    // @ts-ignore
+    result[key] = props[key];
+  }
+
+  await result.save();
+  res(result);
 });
 
 export const addMember = (
@@ -83,6 +103,9 @@ export const remove = (
   const result = await get(id);
   if (!result) return res(null);
 
+  await Promise.all(result.members.map((member) => {
+    return MemberController.edit(member, { teamID: undefined });
+  }));
   await result.destroy();
   res(result);
 });
