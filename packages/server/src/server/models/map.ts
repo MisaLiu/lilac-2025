@@ -1,5 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '../database.js';
+import { InferAttributes, InferCreationAttributes } from 'sequelize';
 
 class Map extends Model {
   declare id: number;

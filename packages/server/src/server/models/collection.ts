@@ -1,7 +1,8 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '../database.js';
+import { InferAttributes, InferCreationAttributes } from 'sequelize';
 
-class Collection extends Model {
+class Collection extends Model<InferAttributes<Collection>, InferCreationAttributes<Collection>> {
   declare name: string;
   declare type: 'positive' | 'negative' | 'neutral';
   declare description: string;

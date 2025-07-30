@@ -1,13 +1,8 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '../database.js';
+import { InferAttributes, InferCreationAttributes } from 'sequelize';
 
-export type TMember = {
-  name: string;
-  qq: number;
-  teamID?: number;
-};
-
-class Member extends Model {
+class Member extends Model<InferAttributes<Member>, InferCreationAttributes<Member>> {
   declare name: string;
   declare qq: number;
   declare teamID?: number;

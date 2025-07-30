@@ -1,37 +1,39 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '../database.js';
+import { InferAttributes, InferCreationAttributes } from 'sequelize';
 
-export type TTeam = {
-  members: number[];
-  collectionsOwned: number[];
-  score: number;
-  tipsPoint?: number;
-  mapLocation?: number;
-  puzzleID?: number;
-};
-
-class Team extends Model {
+class Team extends Model<
+  InferAttributes<Team>,
+  InferCreationAttributes<Team, { omit: 'id' | 'collectionsOwned' | 'score' | 'tipsPoint' | 'mapLocation' | 'questionID' }>
+> {
   declare id: number;
   declare members: number[];
   declare collectionsOwned: number[];
   declare score: number;
   declare tipsPoint?: number;
   declare mapLocation?: number;
-  declare puzzleID?: number;
+  declare questionID?: number;
 }
 
 Team.init(
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
     members: {
       type: DataTypes.JSON,
-      defaultValue: [],
+      allowNull: false,
     },
     collectionsOwned: {
       type: DataTypes.JSON,
+      allowNull: false,
       defaultValue: [],
     },
     score: {
       type: DataTypes.NUMBER,
+      allowNull: false,
       defaultValue: 0,
     },
     tipsPoint: {
@@ -44,7 +46,7 @@ Team.init(
       allowNull: true,
       defaultValue: null,
     },
-    puzzleID: {
+    questionID: {
       type: DataTypes.NUMBER,
       allowNull: true,
       defaultValue: null,

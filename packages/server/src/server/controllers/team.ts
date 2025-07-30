@@ -1,13 +1,13 @@
 import TeamModel from '../models/team.js';
 import * as MemberController from './member.js';
-import { TTeam } from '../models/team.js';
+import { InferAttributes } from 'sequelize';
 
 export const getAll = () => TeamModel.findAll();
 
 export const get = (id: number) => TeamModel.findOne({ where: { id } });
 
 export const add = (
-  members: [ number, number ]
+  members: number[]
 ) => new Promise<TeamModel>(async (res, rej) => {
   const membersModel = await Promise.all(members.map(e => MemberController.get(e)));
 
@@ -33,7 +33,7 @@ export const add = (
  */
 export const edit = (
   id: number,
-  props: Partial<TTeam>,
+  props: Partial<InferAttributes<TeamModel, { omit: 'id' }>>,
 ) => new Promise<TeamModel | null>(async (res, rej) => {
   const result = await get(id);
   if (!result) return res(null);
